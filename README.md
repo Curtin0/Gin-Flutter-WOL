@@ -20,3 +20,4 @@ Anyone interested in this framework can contact the author by email to exchange 
 使得具有RS232/485接口的控制器可以通过PC设备上传到云服务器进行计算、存储，将结果推送给前端，你的App、Web或者桌面应用等任何使用了Websocket协议的界面程序。
 
 如果任何人这个框架目感兴趣，可以邮件联系作者交流 pengfei.fu@outlook.com
+![strucyure](https://user-images.githubusercontent.com/49359900/124684592-14fd3800-df02-11eb-85b5-1319f782e406.png)
