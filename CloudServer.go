@@ -1,7 +1,9 @@
 package main
 
+//Socket客户端 -> Socket服务端 -> event消息订阅、监听、发布 -> WebSocket服务端 -> Websocket客户端
 //Socket server端口 "localhost:20019"
 //Websocket server端口 "localhost:8080"
+
 import (
 	"fmt"
 	"log"
@@ -11,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/jageros/eventhub"
 )
 
 //主函数
@@ -29,7 +32,7 @@ func main() {
 	//等待客户端访问
 	for {
 		conn, err := netListen.Accept() //Socket监听接收
-		go WebsocketServer()            //调用Websocket主函数
+		//go WebsocketServer()            //★启动Websocket服务
 		if err != nil {
 			continue //如果发生错误，继续下一个循环。
 		}
@@ -42,7 +45,7 @@ func main() {
 	}
 }
 
-//HandleClient 可以接受多个请求 目前有问题
+//HandleClient 可以接受多个请求 不调用
 // func handleClient(conn net.Conn) {
 // 	defer conn.Close()
 // 	daytime := time.Now().String()
@@ -55,7 +58,9 @@ func main() {
 func handleConnection(conn net.Conn) {
 	buffer := make([]byte, 2048) //建立一个slice
 	for {
-		n, err := conn.Read(buffer) //读取客户端传来的内容 buffer缓冲器 包含读写操作
+		n, err := conn.Read(buffer) //读取客户端传来的内容 buffer缓冲器包含读写操作
+
+		go WebsocketServer() //★启动Websocket服务
 
 		if err != nil {
 			Log(conn.RemoteAddr().String(), "connection error: ", err)
@@ -65,8 +70,11 @@ func handleConnection(conn net.Conn) {
 		Log(conn.RemoteAddr().String(), "receive data string:\n", string(buffer[:n]))
 
 		//返回给客户端的信息
-		strTemp := "CofoxServer got msg \"" + string(buffer[:n]) + "\" at " + time.Now().String()
+		strTemp := "SocketServer has got msg \"" + string(buffer[:n]) + "\" at " + time.Now().String()
+
 		conn.Write([]byte(strTemp))
+
+		Event() //★启动监听服务  监听来自Socket客户端（存入buffer的）发来的数据 暂无法使用
 
 	}
 }
@@ -89,8 +97,8 @@ func CheckError(err error) {
 //
 ****************************************************************************/
 
-// We'll need to define an UpGrader
-// this will require a Read and Write buffer size
+// 需要定义一个升级
+// 用buffer读写数据
 var upGrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -111,7 +119,7 @@ func setupRoutes() {
 
 //详细处理部分
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
-	// upgrade this connection to a WebSocket
+	// http升级为Websocket连接
 	// connection
 	ws, err := upGrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -119,17 +127,15 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// say hello to Web
-	log.Println("WebClient Connected")
-	err = ws.WriteMessage(1, []byte("Hello Client!"))
-	//err = ws.WriteMessage([]byte(strTemp)) //问题
+	log.Println("WebsocketClient Connected")
+	err = ws.WriteMessage(1, []byte("Hello WebsocketClient!"))
 
-	//转换JSO  N格式
+	//转换JSON格式
 	/*
 		type DataGroup struct {
 			//ID   int
 			Data string `json:"data"`
 			//Colors []string
-			//note   string
 		}
 		group := DataGroup{
 			//ID:   1,
@@ -143,28 +149,29 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 		os.Stdout.Write(b)
 	*/
 
-	// handle writer
+	// 发送消息处理
 	go func() {
 		for {
-			time.Sleep(time.Second * 5)
+			time.Sleep(time.Second * 15)
 			err = ws.WriteMessage(1, []byte(time.Now().Format("2006-01-02 15:04:05")))
+			err = ws.WriteMessage(1, []byte("strTemp"))
+
 			if err != nil {
 				log.Println(err)
 			}
 		}
 	}()
 
-	// listen indefinitely for new messages coming
-	// through on our WebSocket connection
+	// 创建Websocket连接
 	go func(conn *websocket.Conn) {
 		for {
-			// read in a message
+			// 读取一条信息
 			messageType, p, err := conn.ReadMessage()
 			if err != nil {
 				log.Println(err)
 				return
 			}
-			// print out that message for clarity
+			// 打印日志
 			log.Println(string(p))
 
 			if err := conn.WriteMessage(messageType, p); err != nil {
@@ -173,4 +180,44 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}(ws)
+}
+
+/****************************************************************************
+**
+**以下为Event监听事件服务
+**监听来自Socket服务端的消息  传递给Websocket服务端输出
+**作者源码使用解释 https://blog.csdn.net/lhj_168/article/details/103394237
+**
+****************************************************************************/
+
+func Event() {
+	//监听事件
+	// eventhub.Subscribe(2, func(args ...interface{}) {
+	// 	fmt.Printf("Subscribe1 eventId=2 args=%v\n", args)
+	// })
+	// eventhub.Subscribe(1, func(args ...interface{}) {
+	// 	fmt.Printf("Subscribe2 eventId=1 args=%v\n", args)
+	// })
+	eventhub.Subscribe(3, func(args ...interface{}) {
+		fmt.Printf("Subscribe3 eventId=3 args=%v\n", args)
+		if arg, ok := args[0].(func()); ok {
+			arg()
+		}
+	})
+
+	// 监听并取消监听
+	// seq := eventhub.Subscribe(1, func(args ...interface{}) {
+	// 	fmt.Printf("Subscribe4 eventId=1 args=%+v\n", args)
+	// })
+	// eventhub.Unsubscribe(1, seq)
+
+	// 发布事件
+	//eventhub.Publish(1, 10, 100)
+	//eventhub.Publish(2, 20, 200)
+	eventhub.Publish(3, readevent)
+}
+
+// 此函数用作参数
+func readevent() {
+	fmt.Printf("waitting\n")
 }
