@@ -32,7 +32,7 @@ func main() {
 	//等待客户端访问
 	for {
 		conn, err := netListen.Accept() //Socket监听接收
-		//go WebsocketServer()            //★启动Websocket服务
+
 		if err != nil {
 			continue //如果发生错误，继续下一个循环。
 		}
@@ -56,7 +56,7 @@ func main() {
 
 //处理连接 来自主函数
 func handleConnection(conn net.Conn) {
-	buffer := make([]byte, 2048) //建立一个slice
+	buffer := make([]byte, 2048) //建立一个切片
 	for {
 		n, err := conn.Read(buffer) //读取客户端传来的内容 buffer缓冲器包含读写操作
 
@@ -74,7 +74,7 @@ func handleConnection(conn net.Conn) {
 
 		conn.Write([]byte(strTemp))
 
-		Event() //★启动监听服务  监听来自Socket客户端（存入buffer的）发来的数据 暂无法使用
+		Event() //★启动eventhub监听服务
 
 	}
 }
@@ -97,7 +97,7 @@ func CheckError(err error) {
 //
 ****************************************************************************/
 
-// 需要定义一个升级
+// 定义http协议升级到websocket
 // 用buffer读写数据
 var upGrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
@@ -117,7 +117,7 @@ func setupRoutes() {
 	http.HandleFunc("/ws", wsEndpoint)
 }
 
-//详细处理部分
+//处理内容
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	// http升级为Websocket连接
 	// connection
@@ -186,7 +186,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 **
 **以下为Event监听事件服务
 **监听来自Socket服务端的消息  传递给Websocket服务端输出
-**作者源码使用解释 https://blog.csdn.net/lhj_168/article/details/103394237
+**源码使用解释 https://blog.csdn.net/lhj_168/article/details/103394237
 **
 ****************************************************************************/
 
@@ -219,5 +219,5 @@ func Event() {
 
 // 此函数用作参数
 func readevent() {
-	fmt.Printf("waitting\n")
+	fmt.Printf("hello\n")
 }
