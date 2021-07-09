@@ -1,25 +1,24 @@
 # Socket-to-WebSocket
 
-The framework is a cloud server backgrounder that emits data received by the Socket server side through the WebSocket server side
+本项目为一个云服务器后台程序，功能是可以将Socket服务端收到的hex格式数据经过后台逻辑处理再通过WebSocket服务端发送JSON格式给前端。
 
-Web pages for testing are already given in the file, and you only need to align your front-end interface Websocket's ip and listening ports with the program when you actually use them.
+此处后台只做数据格式转换，不做其他处理。
 
-The author will then refine the Socket client with serial communication conversion, which enables a Demo of the Internet of Things.
+文件中已经给出了用于测试的Web页面，实际使用时只需修改前端界面中websocket监听的的ip和端口与后台保持一致。
 
-Enable controllers with RS232/485 interfaces to be uploaded to a cloud server via a PC device for computing and storage, pushing the results to the front end, and any interface program that uses the Websocket protocol, such as your app, web or desktop app, can be used.
+-------------------------------------------------------------------------------------------------------------------
 
-Anyone interested in this framework can contact the author by email to exchange pengfei.fu@outlook.com
+后续作者会加上串口通信转Socket通信功能（在作者的主页已经用Python语言实现了这个功能，Go语言暂时还没时间）,
 
+这样就可以实现一个物联网Demo，任何具有RS232/485接口的控制器，均可以通过此项目的运行将数据主动推送到App、Web或者桌面应用等任何使用了Websocket协议的界前端应用
 
-该框架为一个云服务器后台程序，可以将Socket服务端收到的数据通过WebSocket服务端发出
+在此基础上你只需要添加通信协议解析就可以使用了，你还可以添加消息过滤、数据存储等功能来进一步完善你的项目。
 
-文件中已经给出了用于测试的Web页面，实际使用时只需要将自己的前端界面Websocket的ip和监听端口和本程序中保持一致即可。
+-------------------------------------------------------------------------------------------------------------------
 
-作者后续会完善加上串口通信转换Socket客户端，（该功能在作者的主页已经用Python实现了，但是Go语言版本还需要一段时间）这样可实现一个设备联网的Demo，在此基础上你可以添加通信协议解析进行使用。
+如果这个项目你可以参考使用到，有更好的意见或是发现一些错误，都可以留言或邮件联系作者交流 pengfei.fu@outlook.com
 
-使得具有RS232/485接口的控制器可以通过PC设备上传到云服务器进行计算、存储，将结果推送给前端，运行在App、Web或者桌面应用等任何使用了Websocket协议的界面程序。
-
-如果任何人对这个框架感兴趣，可以邮件联系作者交流 pengfei.fu@outlook.com
+-------------------------------------------------------------------------------------------------------------------
 ![strucyure](https://user-images.githubusercontent.com/49359900/124684592-14fd3800-df02-11eb-85b5-1319f782e406.png)
 -------------------------------------------------------------------------------------------------------------------
 ![绘图3](https://user-images.githubusercontent.com/49359900/124928355-1cbbfa00-e032-11eb-9596-e4a60edaee9e.png)
