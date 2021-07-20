@@ -1,9 +1,7 @@
+//Socket客户端 -> Socket服务端 -> event消息订阅、监听、发布 -> WebSocket服务端 -> Websocket客户端
 package main
 
-//Socket客户端 -> Socket服务端 -> event消息订阅、监听、发布 -> WebSocket服务端 -> Websocket客户端
-//Socket server端口 "localhost:20019"
-//Websocket server端口 "localhost:8080"
-
+/*
 import (
 	"fmt"
 	"log"
@@ -18,8 +16,6 @@ import (
 
 //主函数
 func main() {
-	//添加端口绑定 否则只能在本地和客户端连接
-
 	//建立socket端口监听
 	netListen, err := net.Listen("tcp", "localhost:20019")
 	CheckError(err)
@@ -36,7 +32,6 @@ func main() {
 		if err != nil {
 			continue //如果发生错误，继续下一个循环。
 		}
-		//go handleClient(conn) //多并发处理
 
 		Log(conn.RemoteAddr().String(), "tcp connect success") //tcp连接成功
 
@@ -44,15 +39,6 @@ func main() {
 		go handleConnection(conn)
 	}
 }
-
-//HandleClient 可以接受多个请求 不调用
-// func handleClient(conn net.Conn) {
-// 	defer conn.Close()
-// 	daytime := time.Now().String()
-// 	// don't care about return value
-// 	conn.Write([]byte(daytime))
-// 	// we're finished with this client
-// }
 
 //处理连接 来自主函数
 func handleConnection(conn net.Conn) {
@@ -75,9 +61,11 @@ func handleConnection(conn net.Conn) {
 		conn.Write([]byte(strTemp))
 
 		Event() //★启动eventhub监听服务
-
 	}
+
 }
+
+var c = "string(buffer[:n])" //c将值传递出来给Wbebsocket调用
 
 //日志处理
 func Log(v ...interface{}) {
@@ -96,9 +84,9 @@ func CheckError(err error) {
 //以下为Websocket服务
 //
 ****************************************************************************/
-
 // 定义http协议升级到websocket
 // 用buffer读写数据
+/*
 var upGrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -147,14 +135,15 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("error:", err)
 		}
 		os.Stdout.Write(b)
-	*/
+*/
 
-	// 发送消息处理
+// 发送消息处理
+/*
 	go func() {
 		for {
 			time.Sleep(time.Second * 15)
 			err = ws.WriteMessage(1, []byte(time.Now().Format("2006-01-02 15:04:05")))
-			err = ws.WriteMessage(1, []byte("strTemp"))
+			err = ws.WriteMessage(1, []byte(c))
 
 			if err != nil {
 				log.Println(err)
@@ -189,7 +178,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 **源码使用解释 https://blog.csdn.net/lhj_168/article/details/103394237
 **
 ****************************************************************************/
-
+/*
 func Event() {
 	//监听事件
 	// eventhub.Subscribe(2, func(args ...interface{}) {
@@ -221,3 +210,4 @@ func Event() {
 func readevent() {
 	fmt.Printf("hello\n")
 }
+*/
