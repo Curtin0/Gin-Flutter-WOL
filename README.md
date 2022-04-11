@@ -15,7 +15,6 @@
 </div>
 
 
-
 ### 1.2 源代码目录结构
 
 ```
@@ -29,10 +28,9 @@
        ├─models          （数据库服务）
        ├─net             （tcp通信服务）
        ├─routers         （路由）
-     └─upload 	         （App安装包资源）
   [App]
     ├─AppGUI             （前端文件夹）
-     └─lib               （源码包）
+      └─lib              （源码包）
        ├─api             （http通信接口）
        ├─base            （通信数据格式框架）
        ├─components      （通用组件）
@@ -40,7 +38,7 @@
        ├─more            （说明页面）
   [上位机]
     ├─WinCC              （上位机文件夹）
-     └─PortCMD...        （上位机控制程序）
-     └─PortCMD.WinForm   （上位机界面）
+      └─PortCMD          （上位机控制程序）
+      └─PortCMD.WinForm  （上位机界面）
 ```
 
