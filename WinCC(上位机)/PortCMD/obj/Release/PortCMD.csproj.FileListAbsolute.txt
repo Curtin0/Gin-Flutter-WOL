@@ -1,0 +1,17 @@
+C:\Users\Pengf\Desktop\1\PortCMD\PortCMD\bin\Release\PortCMD.dll
+C:\Users\Pengf\Desktop\1\PortCMD\PortCMD\bin\Release\PortCMD.pdb
+C:\Users\Pengf\Desktop\1\PortCMD\PortCMD\obj\Release\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\Pengf\Desktop\1\PortCMD\PortCMD\obj\Release\PortCMD.dll
+C:\Users\Pengf\Desktop\1\PortCMD\PortCMD\obj\Release\PortCMD.pdb
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\bin\Release\PortCMD.dll
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\bin\Release\PortCMD.pdb
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Release\PortCMD.csproj.AssemblyReference.cache
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Release\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Release\PortCMD.dll
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Release\PortCMD.pdb
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\bin\Release\PortCMD.dll
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\bin\Release\PortCMD.pdb
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Release\PortCMD.csproj.AssemblyReference.cache
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Release\PortCMD.csproj.CoreCompileInputs.cache
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Release\PortCMD.dll
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Release\PortCMD.pdb

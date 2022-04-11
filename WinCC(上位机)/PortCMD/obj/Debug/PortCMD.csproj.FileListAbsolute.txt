@@ -1,0 +1,40 @@
+C:\Users\admin\Desktop\PortCMD\PortCMD\bin\Debug\PortCMD.dll
+C:\Users\admin\Desktop\PortCMD\PortCMD\bin\Debug\PortCMD.pdb
+C:\Users\admin\Desktop\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\PortCMD\PortCMD\obj\Debug\PortCMD.dll
+C:\Users\admin\Desktop\PortCMD\PortCMD\obj\Debug\PortCMD.pdb
+C:\Users\admin\Desktop\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.AssemblyReference.cache
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\bin\Debug\PortCMD.dll
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\bin\Debug\PortCMD.pdb
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Debug\PortCMD.csproj.AssemblyReference.cache
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Debug\PortCMD.dll
+C:\Users\Pengf\Desktop\1\PortCMD0809\PortCMD\obj\Debug\PortCMD.pdb
+C:\Users\Pengf\Desktop\PortCMD0809\PortCMD\bin\Debug\PortCMD.dll
+C:\Users\Pengf\Desktop\PortCMD0809\PortCMD\bin\Debug\PortCMD.pdb
+C:\Users\Pengf\Desktop\PortCMD0809\PortCMD\obj\Debug\PortCMD.csproj.AssemblyReference.cache
+C:\Users\Pengf\Desktop\PortCMD0809\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\Pengf\Desktop\PortCMD0809\PortCMD\obj\Debug\PortCMD.dll
+C:\Users\Pengf\Desktop\PortCMD0809\PortCMD\obj\Debug\PortCMD.pdb
+C:\Users\admin\Desktop\PortCMD\PortCMD\PortCMD\bin\Debug\PortCMD.dll
+C:\Users\admin\Desktop\PortCMD\PortCMD\PortCMD\bin\Debug\PortCMD.pdb
+C:\Users\admin\Desktop\PortCMD\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\PortCMD\PortCMD\PortCMD\obj\Debug\PortCMD.dll
+C:\Users\admin\Desktop\PortCMD\PortCMD\PortCMD\obj\Debug\PortCMD.pdb
+C:\Users\admin\Desktop\PortCMD\Wincc1\PortCMD\PortCMD\bin\Debug\PortCMD.dll
+C:\Users\admin\Desktop\PortCMD\Wincc1\PortCMD\PortCMD\bin\Debug\PortCMD.pdb
+C:\Users\admin\Desktop\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.AssemblyReference.cache
+C:\Users\admin\Desktop\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.dll
+C:\Users\admin\Desktop\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.pdb
+C:\project\PortCMD\Wincc1\PortCMD\PortCMD\bin\Debug\PortCMD.dll
+C:\project\PortCMD\Wincc1\PortCMD\PortCMD\bin\Debug\PortCMD.pdb
+C:\project\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+C:\project\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.dll
+C:\project\PortCMD\Wincc1\PortCMD\PortCMD\obj\Debug\PortCMD.pdb
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\bin\Debug\PortCMD.dll
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\bin\Debug\PortCMD.pdb
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.AssemblyReference.cache
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Debug\PortCMD.csproj.CoreCompileInputs.cache
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Debug\PortCMD.dll
+E:\PMSMproject\PMSM -master\PortCMD\PortCMD\obj\Debug\PortCMD.pdb
