@@ -1,1 +1,2 @@
 *.dart linguist-language = Go
+*.C++ linguist-language = Go
