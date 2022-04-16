@@ -1,2 +1,2 @@
-*.dart linguist-language = Go
-*.c++ linguist-language = Go
+*.dart linguist-language = Go,
+*.C++ linguist-language = Go
