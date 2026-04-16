@@ -1,1 +1,17 @@
-//*.dart linguist-language = Go
+
+# 将 iOS/macOS 平台代码排除出语言统计
+*.m linguist-vendored
+*.swift linguist-vendored
+*.kt linguist-vendored
+*.java linguist-vendored
+*.gradle linguist-vendored
+*.plist linguist-vendored
+*.xcconfig linguist-vendored
+*.xcfilelist linguist-vendored
+*.xcscheme linguist-vendored
+*.xcworkspacedata linguist-vendored
+
+# 将 C/C++ Windows 平台代码排除出语言统计
+*.cpp linguist-vendored
+*.h linguist-vendored
+*.cmake linguist-vendored
