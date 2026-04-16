@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:window_manager/window_manager.dart';
 import 'fan_controllers/fan_homepage.dart';
+import 'fan_controllers/device_data_page.dart';
 import 'More/more_settings.dart';
 import 'api/http_util.dart';
 
@@ -22,19 +23,22 @@ void main() async {
     WindowOptions windowOptions = WindowOptions(
       size: Size(windowWidth, windowHeight),
       center: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.normal,
       title: 'PMSM风机监测系统',
     );
 
+    // 先启动 Flutter 渲染，再在首帧准备好后显示窗口
+    runApp(const MyApp());
+
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
     });
+  } else {
+    runApp(const MyApp());
   }
-
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -67,17 +71,19 @@ class MyHome extends StatefulWidget {
   _MyHomeState createState() => new _MyHomeState();
 }
 
-class _MyHomeState extends State<MyHome> {
+class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
     HttpUtil.getInstance();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
             title: const Text(
               'PMSM风机监测系统',
@@ -117,31 +123,33 @@ class _MyHomeState extends State<MyHome> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildNavItem(0, Icons.air, '风机监控', true),
-                  _buildNavItem(1, Icons.settings, '系统设置', false),
+                  _buildNavItem(0, Icons.air, '风机监控'),
+                  _buildNavItem(1, Icons.analytics, '设备数据'),
+                  _buildNavItem(2, Icons.settings, '系统设置'),
                 ],
               ),
             ),
           ),
         ),
-        body: TabBarView(children: <Widget>[
+        body: TabBarView(controller: _tabController, children: <Widget>[
           FanlistNumber(
             mt: 'FanControlHomePage',
           ),
+          const DeviceDataPage(),
           MoreSettings(
             mt: 'MoreSettings',
           ),
         ]),
-      ),
-    );
+      );
   }
 
-  Widget _buildNavItem(
-      int index, IconData icon, String label, bool isSelected) {
-    final color = isSelected ? const Color(0xFF007AFF) : Colors.grey;
+  Widget _buildNavItem(int index, IconData icon, String label) {
+    final isCurrentSelected = _tabController.index == index;
+    final color = isCurrentSelected ? const Color(0xFF007AFF) : Colors.grey;
+
     return GestureDetector(
       onTap: () {
-        DefaultTabController.of(context).animateTo(index);
+        _tabController.animateTo(index);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -153,7 +161,8 @@ class _MyHomeState extends State<MyHome> {
             style: TextStyle(
               color: color,
               fontSize: 12,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              fontWeight:
+                  isCurrentSelected ? FontWeight.w600 : FontWeight.normal,
             ),
           ),
         ],
@@ -163,6 +172,7 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   void dispose() {
+    _tabController.dispose();
     super.dispose();
   }
 }
