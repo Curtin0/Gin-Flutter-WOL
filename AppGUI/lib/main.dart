@@ -1,34 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:window_manager/window_manager.dart';
 import 'fan_controllers/fan_homepage.dart';
 import 'More/more_settings.dart';
 import 'api/http_util.dart';
 
-import 'package:flutter/widgets.dart';
-import 'package:window_size/window_size.dart' as window_size;
-import 'package:window_size/window_size.dart';
 import 'dart:io';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    final WindowSizeService windowSizeService = WindowSizeService();
-    windowSizeService.initialize();
+    // 初始化 window_manager
+    await windowManager.ensureInitialized();
+
+    // 配置窗口选项
+    const windowWidth = 450.0;
+    const windowHeight = 800.0;
+
+    WindowOptions windowOptions = WindowOptions(
+      size: Size(windowWidth, windowHeight),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+      title: 'PMSM风机监测系统',
+    );
+
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
   }
-  runApp(MyApp());
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tongye',
+      title: 'PMSM风机监测',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF007AFF),
+          brightness: Brightness.light,
+        ),
+        fontFamily: 'Microsoft YaHei',
       ),
-      home: MyHome(
-        title: 'Tongye',
+      home: const MyHome(
+        title: 'PMSM风机监测',
       ),
     );
   }
@@ -36,7 +62,7 @@ class MyApp extends StatelessWidget {
 
 class MyHome extends StatefulWidget {
   final String title;
-  MyHome({Key key, @required this.title}) : super(key: key);
+  const MyHome({super.key, required this.title});
   @override
   _MyHomeState createState() => new _MyHomeState();
 }
@@ -53,29 +79,49 @@ class _MyHomeState extends State<MyHome> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-            title: Text('PMSM风机数据监测软件'),
+            title: const Text(
+              'PMSM风机监测系统',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             centerTitle: true,
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF007AFF), Color(0xFF00C6FF)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+            ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.refresh, color: Colors.white),
                 onPressed: () {},
               )
             ]),
         bottomNavigationBar: Container(
-          decoration: BoxDecoration(color: Colors.blueGrey),
-          height: 50,
-          child: TabBar(
-            labelStyle: TextStyle(height: 0, fontSize: 10),
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.speaker_phone),
-                text: '风机操作',
-              ),
-              Tab(
-                icon: Icon(Icons.more),
-                text: '更多',
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
               ),
             ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(0, Icons.air, '风机监控', true),
+                  _buildNavItem(1, Icons.settings, '系统设置', false),
+                ],
+              ),
+            ),
           ),
         ),
         body: TabBarView(children: <Widget>[
@@ -90,64 +136,33 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
+  Widget _buildNavItem(
+      int index, IconData icon, String label, bool isSelected) {
+    final color = isSelected ? const Color(0xFF007AFF) : Colors.grey;
+    return GestureDetector(
+      onTap: () {
+        DefaultTabController.of(context).animateTo(index);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: color, size: 26),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontSize: 12,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
-  }
-}
-
-//@设置windows应用初始尺寸
-class PlatformUtils {
-  static bool _isWeb() {
-    return kIsWeb == true;
-  }
-
-  static bool get isWeb => _isWeb();
-}
-
-class WindowSizeService {
-  static const double width = 400;
-  static const double height = 700;
-
-  Future<PlatformWindow> _getPlatformWindow() async {
-    return await window_size.getWindowInfo();
-  }
-
-  void _setWindowSize(PlatformWindow platformWindow) {
-    final Rect frame = Rect.fromCenter(
-      center: Offset(
-        platformWindow.frame.center.dx,
-        platformWindow.frame.center.dy,
-      ),
-      width: width,
-      height: height,
-    );
-
-    window_size.setWindowFrame(frame);
-
-    setWindowTitle(
-      '${Platform.operatingSystem} App',
-    );
-
-    /// 此处的判断是指，只要是苹果或者微软，那么设置其最大尺寸和最小尺寸， 可以另作调整
-    if (Platform.isMacOS || Platform.isWindows) {
-      window_size.setWindowMinSize(Size(width, height));
-      window_size.setWindowMaxSize(Size(500, 1200));
-    }
-  }
-
-  Future<void> initialize() async {
-    PlatformWindow platformWindow = await _getPlatformWindow();
-
-    if (platformWindow.screen != null) {
-      if (platformWindow.screen.visibleFrame.width != 800 ||
-          platformWindow.screen.visibleFrame.height != 500) {
-        _setWindowSize(platformWindow);
-      }
-    }
-  }
-
-  void setWindowTitle(String title) {
-    window_size.setWindowTitle(title);
   }
 }

@@ -1,13 +1,14 @@
 package models
 
 import (
-	"fmt"
+	"os"
+	"path/filepath"
 	"time"
 	"webserver/src/config"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
-	"xorm.io/core"
+	_ "modernc.org/sqlite"
+	"xorm.io/xorm"
+	"xorm.io/xorm/log"
 )
 
 type DBClient struct {
@@ -16,16 +17,19 @@ type DBClient struct {
 
 var DB = &DBClient{engine: nil}
 
-// "username:password@tcp(ip:port)/database?charset=utf8
 func (db *DBClient) Open() error {
 	var err error
-	sourcename := fmt.Sprintf("%v:%v@tcp(%v:%v)/webserver?charset=utf8", "root", "ASIM01@2021.tongye", config.Conf.DBHost, config.Conf.DBPort)
-	db.engine, err = xorm.NewEngine("mysql", sourcename)
+	dbPath := config.Conf.DBPath
+	// 确保数据库文件所在目录存在
+	dir := filepath.Dir(dbPath)
+	if dir != "" && dir != "." {
+		os.MkdirAll(dir, 0777)
+	}
+	db.engine, err = xorm.NewEngine("sqlite", dbPath)
 	if err != nil {
 		return err
 	}
-	db.engine.SetLogLevel(core.LOG_DEBUG)
-
+	db.engine.SetLogLevel(log.LOG_DEBUG)
 	db.engine.ShowSQL(true)
 	db.engine.SetMaxIdleConns(10)
 	db.engine.SetMaxOpenConns(10)

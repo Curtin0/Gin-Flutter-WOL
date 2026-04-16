@@ -1,25 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<T> _showAlert<T>({BuildContext context, Widget child}) => showDialog<T>(
+Future<T?> _showAlert<T>(
+        {required BuildContext context, required Widget child}) =>
+    showDialog<T>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) => child,
     );
-    
-Future<bool> showAlert(BuildContext context, {String title, String negativeText = "取消", String positiveText = "确定", bool onlyPositive = false}) =>
+
+Future<bool?> showAlert(BuildContext context,
+        {String? title,
+        String negativeText = "取消",
+        String positiveText = "确定",
+        bool onlyPositive = false}) =>
     _showAlert<bool>(
       context: context,
       child: CupertinoAlertDialog(
         content: Container(
-          margin: EdgeInsets.only(top: 20,left:20,right: 20,bottom: 20,),
-          child: Text(title,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+          margin: EdgeInsets.only(
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          child: Text(
+            title ?? '',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
         ),
-        actions: _buildAlertActions(context, onlyPositive, negativeText, positiveText),
+        actions: _buildAlertActions(
+            context, onlyPositive, negativeText, positiveText),
       ),
     );
 
-List<Widget> _buildAlertActions(BuildContext context, bool onlyPositive, String negativeText, String positiveText) {
+List<Widget> _buildAlertActions(BuildContext context, bool onlyPositive,
+    String negativeText, String positiveText) {
   if (onlyPositive) {
     return [
       CupertinoDialogAction(
@@ -58,13 +74,17 @@ List<Widget> _buildAlertActions(BuildContext context, bool onlyPositive, String 
   }
 }
 
-
 ///  显示loading框  , 隐藏调用 Navigator.pop(context)
-Future _showLoadingDialog(BuildContext c, LoadingDialog loading, {bool cancelable = true}) =>
-    showDialog(context: c, barrierDismissible: cancelable, builder: (BuildContext c) => loading);
+Future _showLoadingDialog(BuildContext c, LoadingDialog loading,
+        {bool cancelable = true}) =>
+    showDialog(
+        context: c,
+        barrierDismissible: cancelable,
+        builder: (BuildContext c) => loading);
 
 class LoadingDialog extends CupertinoAlertDialog {
-  BuildContext currentContext;
+  BuildContext? currentContext = null;
+  bool showing = false;
 
   show(BuildContext context) {
     showing = true;
@@ -73,19 +93,17 @@ class LoadingDialog extends CupertinoAlertDialog {
     });
   }
 
-  bool showing;
-
   hide(BuildContext context) {
-    if (showing) {
-      Navigator.removeRoute(context, ModalRoute.of(currentContext));
+    if (showing && currentContext != null) {
+      Navigator.removeRoute(context, ModalRoute.of(currentContext!)!);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     currentContext = context;
-    return WillPopScope(
-      onWillPop: () => Future.value(!bool.fromEnvironment("dart.vm.product")),
+    return PopScope(
+      canPop: false,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return Center(
@@ -97,8 +115,7 @@ class LoadingDialog extends CupertinoAlertDialog {
                 child: SizedBox(
                     width: 45.0,
                     height: 45.0,
-                    child: const CircularProgressIndicator(strokeWidth: 2.0)
-                ),
+                    child: CircularProgressIndicator(strokeWidth: 2.0)),
               ),
             ),
           );

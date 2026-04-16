@@ -1,0 +1,148 @@
+# ===========================================
+# PMSM风机监测系统 - 统一Git忽略配置
+# ===========================================
+
+# ------------------ 通用 ------------------
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS
+.DS_Store
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Bb]ackup/[Dd]ebug*/
+[Bb]ackup/[Rr]elease*/
+[Bb]ackup/[Bb]uild*/
+*.[Oo]bj
+*.[Ll]og
+*.[Pp]db
+
+# ------------------ Flutter (AppGUI) ------------------
+.dart_tool/
+.flutter-plugins-dependencies
+.flutter-plugins
+build/
+flutter_01.log
+.packages
+coverage/
+*.g.dart
+
+# ------------------ Go (WebServer) ------------------
+# Binaries
+webserver.exe
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go-work*
+
+# Go build
+/bin/
+/vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# ------------------ C#/.NET (WinCC) ------------------
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+**/[Dd]ebug*/CustomAnnotations.cache
+**/[Dd]ebug*/CustomAnnotations.xml
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+*.snupkg
+
+# Visual Studio Code
+.vscode/*
+
+# Windows
+[Dd]ebug*/
+[Rd]elease/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# MSBuild
+*.log
+*.vspscc
+*.vssscc
+._snn*
+*.snk
+*.cdf
+*.cachefile
+*.VBCC
+VSCodeBackup/
+*.userprefs
+
+# Mono
+*.mdb.lock
+*.mdb
+
+# ------------------ 数据文件 ------------------
+# 不提交运行时数据
+data/
+*.db
+*.sqlite
+*.sqlite3
+conf/*.local.yaml
+conf/*.local.json
+*.log
+
+# ------------------ 文档 ------------------
+!doc/
+doc/**/_drafts/
+doc/**/.obsidian/
+
+# ------------------ 临时文件 ------------------
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+.DS_Store

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MoreSettings extends StatefulWidget {
-  MoreSettings({Key key, @required this.mt}) : super(key: key);
+  MoreSettings({Key? key, required this.mt}) : super(key: key);
 
   final String mt;
 

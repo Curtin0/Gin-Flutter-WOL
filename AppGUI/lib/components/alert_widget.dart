@@ -2,30 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlertTools {
-
-  static void showCupertinoAlert(BuildContext context,String title, String content, List actions,Function(int index) click) {
+  static void showCupertinoAlert(BuildContext context, String title,
+      String content, List actions, Function(int index) click) {
     showDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
             title: Text(title),
             content: Text(content),
-            actions: actions.asMap().keys.map((e) => CupertinoDialogAction(
-              child: Text(actions[e]),
-              onPressed: () {
-                click(e);
-                Navigator.of(context).pop();
-              },
-            )).toList()
-        ));
+            actions: actions
+                .asMap()
+                .keys
+                .map((e) => CupertinoDialogAction(
+                      child: Text(actions[e]),
+                      onPressed: () {
+                        click(e);
+                        Navigator.of(context).pop();
+                      },
+                    ))
+                .toList()));
   }
 }
 
 class ShowCupertinoAlertDialogWidget extends StatelessWidget {
-  String title;
-  String content;
-  List actions;
+  final String title;
+  final String content;
+  final List actions;
 
-  ShowCupertinoAlertDialogWidget(this.title,this.content,this.actions);
+  ShowCupertinoAlertDialogWidget(this.title, this.content, this.actions);
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +39,8 @@ class ShowCupertinoAlertDialogWidget extends StatelessWidget {
           title: new Text(title),
         ),
         body: Builder(builder: (context) {
-          return RaisedButton(
-            onPressed: () {
-
-            },
+          return ElevatedButton(
+            onPressed: () {},
             child: Text('showDialog'),
           );
         }),

@@ -194,6 +194,14 @@ func handleInitialize(protocol *models.RS485SingleFrameProtocol) {
 func handleUpparam(protocol *models.RS485SingleFrameProtocol, conn net.Conn, deviceinfo *DeviceInfo) {
 	handleKeepalive(protocol)
 	models.SaveDeviceInfo(protocol) // 保存设备信息
+
+	// 广播设备数据更新给所有WebSocket客户端
+	if protocol.Type == 0 && protocol.Data != nil {
+		if param, ok := protocol.Data.(*models.UpParam); ok {
+			BroadcastDeviceUpdate(protocol.DeviceID, protocol.Address, param)
+		}
+	}
+
 	if protocol.Type == 0 {
 		dev := FindSubDevice(protocol.DeviceID, protocol.Address)
 		if dev == nil {

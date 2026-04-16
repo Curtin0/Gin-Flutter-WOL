@@ -1,21 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:dio/dio.dart';
 
 part 'base.g.dart';
 
 @JsonSerializable()
-class BaseResponse<T> extends Response {
-  int code;
+class BaseResponse {
+  int? code;
   dynamic data;
   dynamic data_list;
-
-  String message;
-  String msg;
+  String? message;
+  String? msg;
   bool get success => code == 0;
-  int total;
-  int sum;
-  String resultcode;
-  String trackingcode;
+  int? total;
+  int? sum;
+  String? resultcode;
+  String? trackingcode;
 
   BaseResponse();
 
@@ -28,11 +26,11 @@ class BaseResponse<T> extends Response {
 
 @JsonSerializable()
 class CommonResponse {
-  int code;
+  int? code;
   dynamic data;
-  String message;
-  String msg;
-  int sum;
+  String? message;
+  String? msg;
+  int? sum;
 
   CommonResponse();
 

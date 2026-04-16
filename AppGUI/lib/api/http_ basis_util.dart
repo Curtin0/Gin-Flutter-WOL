@@ -15,13 +15,13 @@ class HttpBasisUtil {
   static Future<Response> get(
     url, {
     queryParameters,
-    Options options,
+    Options? options,
     cancelToken,
     String name = "",
     bool showToast = true,
     bool needErrorResponse = false,
   }) async {
-    Response response;
+    Response? response;
 
     try {
       response = await _dio.get(url,
@@ -30,16 +30,16 @@ class HttpBasisUtil {
           cancelToken: cancelToken);
     } on DioError catch (e) {
       if (CommonUtils.isEmpty(e)) {
-        response = Response();
+        response = Response(requestOptions: RequestOptions(path: ''));
       } else {
         response = e.response;
       }
     }
 
     if (CommonUtils.isEmpty(response)) {
-      return Future.value(Response());
+      return Future.value(Response(requestOptions: RequestOptions(path: '')));
     }
-    print("get请求 -- $name response = ${response.data.toString()}");
+    print("get请求 -- $name response = ${response!.data.toString()}");
 
     return Future.value(response);
   }
@@ -50,14 +50,14 @@ class HttpBasisUtil {
   static Future<Response> post(
     url, {
     data,
-    Options options,
+    Options? options,
     parameter,
     cancelToken,
     String name = "",
     bool showToast = true,
     bool needErrorResponse = false,
   }) async {
-    Response response;
+    Response? response;
     try {
       response = await _dio.post(url,
           data: data,
@@ -69,10 +69,10 @@ class HttpBasisUtil {
     }
 
     if (CommonUtils.isEmpty(response)) {
-      return Future.value(Response());
+      return Future.value(Response(requestOptions: RequestOptions(path: '')));
     }
     print(
-        "post请求 -- $name parameter ：$data response = ${response.data.toString()}");
+        "post请求 -- $name parameter ：$data response = ${response!.data.toString()}");
 
     return Future.value(response);
   }

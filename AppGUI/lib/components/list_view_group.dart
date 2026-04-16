@@ -13,7 +13,7 @@ enum IndexPathType {
 /// [row] 某一组的第几个，起点下标为0
 class IndexPath {
   IndexPath(this.section, this.row,
-      {this.type = IndexPathType.row, this.index});
+      {this.type = IndexPathType.row, this.index = 0});
 
   int index; //原index
   int section;
@@ -46,8 +46,8 @@ typedef DataCountCallBack = int Function(int section);
 class ListViewGroupHandler {
   ListViewGroupHandler(
       {this.numberOfSections = 1,
-      @required this.numberOfRowsInSection,
-      @required this.cellForRowAtIndexPath,
+      required this.numberOfRowsInSection,
+      required this.cellForRowAtIndexPath,
       this.headerForSection,
       this.footerForSection,
       this.header,
@@ -57,13 +57,13 @@ class ListViewGroupHandler {
   final DataCountCallBack numberOfRowsInSection;
   final CellForRowCallBack cellForRowAtIndexPath;
 
-  final HeaderOrFooterForSectionCallBack headerForSection;
-  final HeaderOrFooterForSectionCallBack footerForSection;
-  final HeaderOrFooterCallBack header;
-  final HeaderOrFooterCallBack footer;
+  final HeaderOrFooterForSectionCallBack? headerForSection;
+  final HeaderOrFooterForSectionCallBack? footerForSection;
+  final HeaderOrFooterCallBack? header;
+  final HeaderOrFooterCallBack? footer;
 
   int get allItemCount => _allCount();
-  int _allItemCount;
+  int? _allItemCount;
 
   Widget cellAtIndex(int index) {
     IndexPath indexPath = indexPathFromIndex(index);
@@ -72,35 +72,35 @@ class ListViewGroupHandler {
       case IndexPathType.sectionHeader:
         {
           if (headerForSection != null) {
-            return headerForSection(indexPath.section);
+            return headerForSection!(indexPath.section);
           }
         }
         break;
       case IndexPathType.row:
         {
           if (cellForRowAtIndexPath != null) {
-            return cellForRowAtIndexPath(indexPath);
+            return cellForRowAtIndexPath!(indexPath);
           }
         }
         break;
       case IndexPathType.sectionFooter:
         {
           if (footerForSection != null) {
-            return footerForSection(indexPath.section);
+            return footerForSection!(indexPath.section);
           }
         }
         break;
       case IndexPathType.Header:
         {
           if (header != null) {
-            return header();
+            return header!();
           }
         }
         break;
       case IndexPathType.Footer:
         {
           if (footer != null) {
-            return footer();
+            return footer!();
           }
         }
         break;
@@ -117,10 +117,12 @@ class ListViewGroupHandler {
   IndexPath indexPathFromIndex(int index) {
     IndexPath indexPath = IndexPath(0, 0, index: index);
 
-    if (index == 0 && header != null) {//第一个
+    if (index == 0 && header != null) {
+      //第一个
       indexPath.type = IndexPathType.Header;
       return indexPath;
-    } else if (_allItemCount == index + 1 && footer != null) {//最后一个
+    } else if (_allItemCount == index + 1 && footer != null) {
+      //最后一个
       indexPath.type = IndexPathType.Footer;
       return indexPath;
     } else if (header != null) {

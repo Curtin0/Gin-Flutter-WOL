@@ -144,12 +144,12 @@ class CommonUtils {
 /// 截取时间日
 extension ShortDate on String {
   String get shortDate {
-    if (this == null) return null;
-    return this.substring(0, 10);
+    if (isEmpty) return '';
+    return substring(0, 10);
   }
 }
 
-class MyFunc extends Function {
+class MyFunc {
   int token;
   MyFunc(this.token);
 }

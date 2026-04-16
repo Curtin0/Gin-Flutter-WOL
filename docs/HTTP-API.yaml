@@ -1,0 +1,382 @@
+openapi: 3.0.3
+info:
+  title: Fan Controller HTTP API
+  description: "App与服务器通信 HTTP API - 服务器地址: http://112.74.182.249"
+  version: 1.0.0
+
+servers:
+  - url: "http://112.74.182.249"
+    description: Production server
+
+paths:
+  /record:
+    post:
+      summary: 发送操作命令
+      description: App发给服务器的操作命令，用于控制风机设备
+      operationId: record
+      tags:
+        - Device Control
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - operate
+                - socket_client
+                - address
+              properties:
+                operate:
+                  type: string
+                  description: 操作命令 (固定值 "1")
+                  example: "1"
+                socket_client:
+                  type: string
+                  description: 上位机ID
+                  example: "1"
+                socket_client_model:
+                  type: string
+                  description: 上位机运行模式 (0=手动模式, 1=自动模式)
+                  example: "1"
+                address:
+                  type: string
+                  description: 从站地址 (风机编号 0x21~0x28)
+                  example: "33"
+                source:
+                  type: string
+                  description: 输入源选择 (0=自动识别, 1=DC110V, 2=DC600V, 3=AC380V)
+                  example: "3"
+                mode:
+                  type: string
+                  description: 运行模式 (0=停机, 1=设置转速, 2=风量等级, 3=电压调速)
+                  example: "1"
+                level:
+                  type: string
+                  description: 风量等级
+                  example: "3"
+                rot_speed:
+                  type: string
+                  description: 设置转速 (rpm, 负数表示反转)
+                  example: "1000"
+      responses:
+        '200':
+          description: 操作成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  msg:
+                    type: string
+                    example: "success"
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+
+  /query:
+    post:
+      summary: 查询设备状态
+      description: 查询指定风机的当前状态和运行参数
+      operationId: query
+      tags:
+        - Device Query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - check
+                - socket_client
+                - address
+              properties:
+                check:
+                  type: string
+                  description: 查询命令 (固定值 "1")
+                  example: "1"
+                socket_client:
+                  type: string
+                  description: 上位机ID
+                  example: "1"
+                address:
+                  type: string
+                  description: 从站地址 (风机编号)
+                  example: "33"
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  msg:
+                    type: string
+                    example: "OK"
+                  data:
+                    type: object
+                    properties:
+                      online_status:
+                        type: string
+                        description: 上位机网络状态
+                        example: "0"
+                      socket_client:
+                        type: string
+                        description: 上位机ID
+                        example: "1"
+                      address:
+                        type: string
+                        description: 从站地址
+                        example: "33"
+                      status:
+                        type: string
+                        description: 当前状态 (空闲/启动/运行/故障/故障死锁/停机)
+                        example: "空闲"
+                      fault:
+                        type: string
+                        description: 当前故障
+                        example: "无故障"
+                      source:
+                        type: string
+                        description: 输入源
+                        example: "DC 110V"
+                      mode:
+                        type: string
+                        description: 运行模式
+                        example: "设置转速"
+                      rot_speed:
+                        type: string
+                        description: 风机转速 (rpm)
+                        example: "0"
+                      ntc_temp:
+                        type: string
+                        description: NTC温度 (℃)
+                        example: "34"
+                      bus_voltage:
+                        type: string
+                        description: 母线电压 (V)
+                        example: "297"
+                      u_current:
+                        type: string
+                        description: U相电流 (mA)
+                        example: "0"
+                      v_current:
+                        type: string
+                        description: V相电流 (mA)
+                        example: "0"
+                      w_current:
+                        type: string
+                        description: W相电流 (mA)
+                        example: "0"
+                      x_acceleration:
+                        type: string
+                        description: X轴加速度 (mg)
+                        example: "0"
+                      y_acceleration:
+                        type: string
+                        description: Y轴加速度 (mg)
+                        example: "0"
+                      z_acceleration:
+                        type: string
+                        description: Z轴加速度 (mg)
+                        example: "0"
+                      sum_acceleration:
+                        type: string
+                        description: 加速度矢量和 (mg)
+                        example: "0"
+                      run_time:
+                        type: string
+                        description: 已运行时间 (秒)
+                        example: "11281"
+                      version:
+                        type: string
+                        description: 软件版本
+                        example: "V1.00"
+                      now_time:
+                        type: string
+                        description: 数据刷新时间
+                        example: "2021-08-23 16:30:25 +0800 CST"
+
+  /online:
+    post:
+      summary: 上位机在线查询
+      description: 查询所有在线的上位机设备列表
+      operationId: getOnlineMasters
+      tags:
+        - Device Query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - socket_client
+              properties:
+                socket_client:
+                  type: string
+                  description: 上位机ID (使用 "all" 查询所有)
+                  example: "all"
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  msg:
+                    type: string
+                    example: "OK"
+                  data_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        socket_client:
+                          type: string
+                          description: 上位机ID
+                          example: "1"
+                        online_status:
+                          type: string
+                          description: 在线状态 (0=离线, 1=在线)
+                          example: "1"
+                        name:
+                          type: string
+                          description: 设备名称
+                          example: "PMSM上位机1"
+                        description:
+                          type: string
+                          description: 设备描述
+                          example: "PMSM上位机1-设备列表"
+
+  /online_inside:
+    post:
+      summary: 上位机内部设备在线查询
+      description: 查询指定上位机内部连接的设备在线状态
+      operationId: getOnlineDevices
+      tags:
+        - Device Query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - socket_client
+              properties:
+                socket_client:
+                  type: string
+                  description: 上位机ID
+                  example: "1"
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  msg:
+                    type: string
+                    example: "OK"
+                  data_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                          description: 从站地址
+                          example: "33"
+                        address_online_status:
+                          type: string
+                          description: 设备在线状态 (0=离线, 1=在线)
+                          example: "1"
+
+  /version:
+    post:
+      summary: 版本更新检测
+      description: 检查App是否有新版本可用
+      operationId: checkVersion
+      tags:
+        - System
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - version
+              properties:
+                version:
+                  type: string
+                  description: 当前App版本号
+                  example: "1.1.1"
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  msg:
+                    type: string
+                    example: "OK"
+                  data:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                        description: 最新版本号
+                        example: "1.1.2"
+                      url:
+                        type: string
+                        description: 下载链接
+                        example: "/download/android_1.1.2.apk"
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 错误码
+          example: -1
+        msg:
+          type: string
+          description: 错误信息
+          example: "error message"
+        data:
+          type: object
+          nullable: true
+
+tags:
+  - name: Device Control
+    description: 设备控制相关接口
+  - name: Device Query
+    description: 设备查询相关接口
+  - name: System
+    description: 系统相关接口

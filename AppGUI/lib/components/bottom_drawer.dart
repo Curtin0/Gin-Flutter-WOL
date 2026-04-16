@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 // @上拉抽屉
 
 class BottomDrawer extends StatelessWidget {
-  String title;
-  String btnText;
-  List items;
-  Function callback;
+  final String title;
+  final String? btnText;
+  final List items;
+  final Function callback;
 
   BottomDrawer(this.items, this.callback, {this.btnText, this.title = '请选择'});
 
@@ -47,7 +47,7 @@ class BottomDrawer extends StatelessWidget {
                       return GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          callback?.call(i);
+                          callback.call(i);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -55,24 +55,22 @@ class BottomDrawer extends StatelessWidget {
                           padding: EdgeInsets.all(12),
                           child: Row(
                             children: [
-                              Text(
-                                  '${(int.parse(items.elementAt(i)["address"]) - 32).toString()}'),
+                              Text('${(int.parse(items[i]["address"])) - 32}'),
                               Spacer(),
                               Text(
-                                '${items.elementAt(i)["address_online_status"] == "1" ? "在线" : "离线"}',
+                                '${items[i]["address_online_status"] == "1" ? "在线" : "离线"}',
                                 style: TextStyle(
-                                    color: items.elementAt(
-                                                i)["address_online_status"] ==
-                                            "1"
-                                        ? Colors.green
-                                        : Colors.grey),
+                                    color:
+                                        items[i]["address_online_status"] == "1"
+                                            ? Colors.green
+                                            : Colors.grey),
                               )
                             ],
                           ),
                         ),
                       );
                     },
-                    itemCount: items == null ? 0 : items.length),
+                    itemCount: items.length),
               ),
               SizedBox(height: 10),
             ]));

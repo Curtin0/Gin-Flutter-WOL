@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 
 class VersionUpdate extends StatefulWidget {
-  VersionUpdate({Key key}) : super(key: key);
+  VersionUpdate({Key? key}) : super(key: key);
 
   @override
   _VersionUpdateState createState() => _VersionUpdateState();

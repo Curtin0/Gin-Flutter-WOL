@@ -1,7 +1,15 @@
+import 'env_config.dart';
+
 /// 数据接口
 class API {
-  // APP接口BASE_URL
-  static const BASE_URL = "http://112.74.182.249";
+  // APP接口BASE_URL - 使用环境配置
+  static String get BASE_URL => EnvConfig.config.baseUrl;
+
+  // WebSocket BASE_URL - 使用环境配置
+  static String get WS_BASE_URL => EnvConfig.config.wsBaseUrl;
+
+  // 上位机类型对应的Socket端口
+  static String get SOCKET_PORT => EnvConfig.config.socketPort;
 
   // 登录 - APP发给服务器的操作命令
   //---------------------------------------------------------------------上位机类型一

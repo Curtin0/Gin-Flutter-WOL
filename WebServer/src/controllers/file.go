@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -96,7 +95,7 @@ func Version(ctx *gin.Context) {
 		dir = filepath.Join(curdir, config.Conf.FilePath)
 	}
 
-	rd, err := ioutil.ReadDir(dir)
+	rd, err := os.ReadDir(dir)
 	if err != nil {
 		ctx.JSON(http.StatusOK, QueryReponse{
 			Code: -2,

@@ -2,7 +2,6 @@ package config
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -10,16 +9,14 @@ import (
 type Config struct {
 	WebPort    int32  // web 监听端口
 	SocketPort int32  // socket 端口号
-	DBHost     string // 数据库host
-	DBPort     int32  // 数据库端口
+	DBPath     string // SQLite 数据库文件路径
 	FilePath   string // 文件保存目录
 }
 
 var Conf = &Config{
 	WebPort:    8080,
 	SocketPort: 8000,
-	DBHost:     "127.0.0.1",
-	DBPort:     3306,
+	DBPath:     "data/webserver.db",
 	FilePath:   "upload",
 }
 
@@ -49,7 +46,7 @@ func pathExists(path string) bool {
 
 //从配置文件中载入json字符串
 func loadConfig(path string, config interface{}) error {
-	buf, err := ioutil.ReadFile(path)
+	buf, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
@@ -66,5 +63,5 @@ func writeConfig(path string, config interface{}) error {
 		return err
 	}
 
-	return ioutil.WriteFile(path, buf, 0777)
+	return os.WriteFile(path, buf, 0777)
 }

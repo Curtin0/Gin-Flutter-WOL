@@ -2,30 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Refresher extends StatelessWidget {
-  Refresher({
-    Key key,
-    this.refreshController,
-    this.child,
-    this.onRefresh,
-    this.onLoading,
+  const Refresher({
+    Key? key,
+    required this.refreshController,
+    required this.child,
+    required this.onRefresh,
+    required this.onLoading,
     this.loadingColor = Colors.black54,
   }) : super(key: key);
 
   final RefreshController refreshController;
 
   final Widget child;
-  final onRefresh;
-  final onLoading;
+  final void Function()? onRefresh;
+  final void Function()? onLoading;
   final Color loadingColor;
-
-  Widget loading = Image.asset("images/xl_loading.gif",width:24 ,height: 24,);
   @override
   Widget build(BuildContext context) {
     return RefreshConfiguration(
       shouldFooterFollowWhenNotFull: (mode) {
         return mode == LoadStatus.noMore ? true : false;
       },
-      headerTriggerDistance:15,
+      headerTriggerDistance: 15,
       footerTriggerDistance: MediaQuery.of(context).size.height * 0.2 > 200
           ? MediaQuery.of(context).size.height * 0.2
           : 200,
@@ -34,10 +32,25 @@ class Refresher extends StatelessWidget {
         enablePullUp: true,
         header: ClassicHeader(
           height: 45.0,
-          textStyle:TextStyle(fontSize: 14, color: Color(0xFF999999)),
-          refreshingIcon: Image.asset("images/xl_loading.gif",width:24 ,height: 24,color: loadingColor,),
-          idleIcon:Image.asset("images/loading_idle.png",width:24 ,height: 24,color: loadingColor,),
-          releaseIcon:Image.asset("images/xl_loading.gif",width:24 ,height: 24,color: loadingColor,),
+          textStyle: TextStyle(fontSize: 14, color: Color(0xFF999999)),
+          refreshingIcon: Image.asset(
+            "images/xl_loading.gif",
+            width: 24,
+            height: 24,
+            color: loadingColor,
+          ),
+          idleIcon: Image.asset(
+            "images/loading_idle.png",
+            width: 24,
+            height: 24,
+            color: loadingColor,
+          ),
+          releaseIcon: Image.asset(
+            "images/xl_loading.gif",
+            width: 24,
+            height: 24,
+            color: loadingColor,
+          ),
           completeIcon: null,
           releaseText: '',
           refreshingText: '',
@@ -48,7 +61,7 @@ class Refresher extends StatelessWidget {
 
         // ClassicFooter、CustomFooter、LinkFooter、LoadIndicator
         footer: ClassicFooter(
-            textStyle:TextStyle(fontSize: 16, color: Color(0xFF999999)),
+            textStyle: TextStyle(fontSize: 16, color: Color(0xFF999999)),
             loadingText: "正在加载…",
             noDataText: "",
             canLoadingText: "松手,加载更多!",
