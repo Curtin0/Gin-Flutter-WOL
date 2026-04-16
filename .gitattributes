@@ -2,16 +2,43 @@
 # 将 iOS/macOS 平台代码排除出语言统计
 *.m linguist-vendored
 *.swift linguist-vendored
-*.kt linguist-vendored
-*.java linguist-vendored
-*.gradle linguist-vendored
 *.plist linguist-vendored
 *.xcconfig linguist-vendored
 *.xcfilelist linguist-vendored
 *.xcscheme linguist-vendored
 *.xcworkspacedata linguist-vendored
 
+# 将 Android 平台代码排除出语言统计
+*.kt linguist-vendored
+*.java linguist-vendored
+*.gradle linguist-vendored
+*.kts linguist-vendored
+*.properties linguist-vendored
+*.proto linguist-vendored
+
 # 将 C/C++ Windows 平台代码排除出语言统计
 *.cpp linguist-vendored
 *.h linguist-vendored
 *.cmake linguist-vendored
+
+# 将 Web 平台代码排除出语言统计
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+
+# CMakeLists.txt 排除出语言统计
+CMakeLists.txt linguist-vendored
+
+# 仅排除 AppGUI 子目录中的 JSON/YAML（避免误伤项目自身配置）
+AppGUI/android/**/*.json linguist-vendored
+AppGUI/android/**/*.yaml linguist-vendored
+AppGUI/android/**/*.yml linguist-vendored
+AppGUI/web/**/*.json linguist-vendored
+AppGUI/web/**/*.yaml linguist-vendored
+AppGUI/web/**/*.yml linguist-vendored
+AppGUI/ios/**/*.json linguist-vendored
+AppGUI/ios/**/*.yaml linguist-vendored
+AppGUI/ios/**/*.yml linguist-vendored
+AppGUI/windows/**/*.json linguist-vendored
+AppGUI/windows/**/*.yaml linguist-vendored
+AppGUI/windows/**/*.yml linguist-vendored
