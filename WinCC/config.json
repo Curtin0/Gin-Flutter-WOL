@@ -1,25 +1,29 @@
 {
-  "serial": {
-    "port": "COM3",
-    "baudRate": 19200,
-    "dataBits": 8,
-    "stopBits": 1,
-    "parity": 0,
-    "readTimeout": 3000,
-    "writeTimeout": 3000
-  },
   "server": {
-    "ip": "112.74.182.249",
+    "ip": "127.0.0.1",
     "port": 20019,
     "reconnectInterval": 5000,
     "connectTimeout": 10000
   },
   "gateway": {
     "id": 1,
-    "heartbeatInterval": 15000
+    "heartbeatInterval": 5000,
+    "serial": {
+      "port": "COM3",
+      "baudRate": 19200,
+      "dataBits": 8,
+      "stopBits": 1,
+      "parity": 0,
+      "readTimeout": 3000,
+      "writeTimeout": 3000
+    }
+  },
+  "virtualFan": {
+    "enabled": false,
+    "reportInterval": 5000
   },
   "log": {
-    "level": "info",
+    "level": "debug",
     "path": "./logs/gateway.log",
     "maxFiles": 7,
     "maxSize": 10485760

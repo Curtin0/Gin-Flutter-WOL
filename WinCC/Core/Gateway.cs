@@ -55,13 +55,13 @@ namespace WinCC.Core
             try
             {
                 _serial.Open(
-                    _config.Serial.Port,
-                    _config.Serial.BaudRate,
-                    _config.Serial.DataBits,
-                    _config.Serial.StopBits,
-                    _config.Serial.Parity,
-                    _config.Serial.ReadTimeout,
-                    _config.Serial.WriteTimeout
+                    _config.Gateway.Serial.Port,
+                    _config.Gateway.Serial.BaudRate,
+                    _config.Gateway.Serial.DataBits,
+                    _config.Gateway.Serial.StopBits,
+                    _config.Gateway.Serial.Parity,
+                    _config.Gateway.Serial.ReadTimeout,
+                    _config.Gateway.Serial.WriteTimeout
                 );
             }
             catch (Exception ex)

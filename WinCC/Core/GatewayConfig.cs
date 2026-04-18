@@ -3,13 +3,27 @@ using System;
 namespace WinCC.Core
 {
     /// <summary>
+    /// 运行模式
+    /// </summary>
+    public enum RunMode
+    {
+        /// <summary>默认模式</summary>
+        Default = 0,
+        /// <summary>网关模式：串口转TCP</summary>
+        Gateway = 1,
+        /// <summary>虚拟风机模式：模拟风机直连TCP服务器</summary>
+        VirtualFan = 2
+    }
+
+    /// <summary>
     /// 网关配置
     /// </summary>
     public class GatewayConfig
     {
-        public SerialConfig Serial { get; set; } = new SerialConfig();
+        public RunMode Mode { get; set; } = RunMode.Gateway;
         public ServerConfig Server { get; set; } = new ServerConfig();
         public GatewaySettings Gateway { get; set; } = new GatewaySettings();
+        public VirtualFanConfig VirtualFan { get; set; } = new VirtualFanConfig();
         public LogConfig Log { get; set; } = new LogConfig();
     }
 
@@ -26,7 +40,7 @@ namespace WinCC.Core
 
     public class ServerConfig
     {
-        public string Ip { get; set; } = "112.74.182.249";
+        public string Ip { get; set; } = "127.0.0.1";
         public int Port { get; set; } = 20019;
         public int ReconnectInterval { get; set; } = 5000;
         public int ConnectTimeout { get; set; } = 10000;
@@ -36,6 +50,16 @@ namespace WinCC.Core
     {
         public int Id { get; set; } = 1;
         public int HeartbeatInterval { get; set; } = 15000;
+        public SerialConfig Serial { get; set; } = new SerialConfig();
+    }
+
+    /// <summary>
+    /// 虚拟风机配置
+    /// </summary>
+    public class VirtualFanConfig
+    {
+        public bool Enabled { get; set; } = false;
+        public int ReportInterval { get; set; } = 5000;
     }
 
     public class LogConfig

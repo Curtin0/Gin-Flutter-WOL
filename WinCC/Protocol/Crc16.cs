@@ -12,6 +12,42 @@ namespace WinCC.Protocol
         private const ushort InitialValue = 0xFFFF;
 
         /// <summary>
+        /// 计算CRC16 Modbus校验 (从指定位置开始)
+        /// </summary>
+        /// <param name="data">要进行计算的字节数组</param>
+        /// <param name="start">起始位置</param>
+        /// <param name="length">要计算的长度</param>
+        /// <returns>2字节校验码 (低位在前，高位在后)</returns>
+        public static byte[] Calculate(byte[] data, int start, int length)
+        {
+            if (data == null || start < 0 || length <= 0 || start + length > data.Length)
+            {
+                throw new ArgumentException("Invalid data or length");
+            }
+
+            ushort crc = InitialValue;
+
+            for (int i = start; i < start + length; i++)
+            {
+                crc ^= data[i];
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((crc & 0x0001) == 1)
+                    {
+                        crc >>= 1;
+                        crc ^= Polynomial;
+                    }
+                    else
+                    {
+                        crc >>= 1;
+                    }
+                }
+            }
+
+            return new byte[] { (byte)(crc & 0x00FF), (byte)((crc & 0xFF00) >> 8) };
+        }
+
+        /// <summary>
         /// 计算CRC16 Modbus校验
         /// </summary>
         /// <param name="data">要进行计算的字节数组</param>

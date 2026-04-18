@@ -6,7 +6,42 @@
 
 ### 项目框架图
 
-![Gin-Flutter-Pmsm.png](https://i.loli.net/2021/09/18/vJnr241HQMTZoAy.png)
+```mermaid
+flowchart LR
+    subgraph 现场层
+        风机[PMSM 风机]
+    end
+
+    subgraph 采集层
+        RS485[RS485 串口]
+        WinCC[WinCC 网关]
+    end
+
+    subgraph 服务层
+        TCP[TCP Socket<br/>:8000]
+        HTTP[HTTP 服务<br/>:8080]
+        SQLite[(SQLite<br/>数据库)]
+    end
+
+    subgraph 展示层
+        AppGUI[Flutter 桌面客户端]
+    end
+
+    风机 -->|数据采集| RS485
+    RS485 -->|串口通信| WinCC
+    WinCC -->|TCP 转发| TCP
+    TCP -->|数据存储/查询| HTTP
+    HTTP -->|WebSocket 推送| AppGUI
+    HTTP <-->|数据持久化| SQLite
+
+    style 风机 fill:#e1f5fe,stroke:#01579b
+    style RS485 fill:#e8f5e9,stroke:#2e7d32
+    style WinCC fill:#fff3e0,stroke:#e65100
+    style TCP fill:#fce4ec,stroke:#c2185b
+    style HTTP fill:#f3e5f5,stroke:#7b1fa2
+    style SQLite fill:#efebe9,stroke:#5d4037
+    style AppGUI fill:#e0f7fa,stroke:#00838f
+```
 
 ## 技术栈
 

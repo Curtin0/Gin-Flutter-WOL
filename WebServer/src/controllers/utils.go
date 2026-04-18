@@ -47,13 +47,13 @@ func CheckSum(data []byte) uint16 {
 
 var DeviceFault = map[int32]string{
 	0x000000: "无故障",
-	0x010000: "过压",
-	0x020000: "欠压",
-	0x040000: "过载",
-	0x080000: "过温",
-	0x200000: "输出缺相",
-	0x400000: "输出短路",
-	0x800000: "风机堵转",
+	0x000001: "过压",
+	0x000002: "欠压",
+	0x000004: "过载",
+	0x000008: "过温",
+	0x000020: "输出缺相",
+	0x000040: "输出短路",
+	0x000080: "风机堵转",
 }
 
 var DeviceStatus = map[int32]string{
@@ -80,18 +80,21 @@ var DeviceMode = map[int32]string{
 }
 
 func GetDeviceFault(fault int32) string {
-	if fault == 0x000000 {
-		return DeviceFault[0x000000]
+	if fault == 0 {
+		return DeviceFault[0]
 	}
 	var str string
 	for k, v := range DeviceFault {
-		if fault&k != 0 {
+		if k != 0 && fault&k != 0 {
 			if str == "" {
 				str += v
 			} else {
 				str += "+" + v
 			}
 		}
+	}
+	if str == "" {
+		str = "未知故障"
 	}
 	return str
 }
